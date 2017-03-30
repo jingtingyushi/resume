@@ -11,7 +11,11 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="">我的简历</a>
+            <a class="navbar-brand" href="">
+                <span class="s1">我的简历</span>
+                <span class="s2 glyphicon glyphicon-arrow-left" ng-click="back()"></span>
+            </a>
+            <h3 class="title navbar-text">{{title}}</h3>
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#example-navbar-collapse" ng-click="In=!In">
                 <span class="sr-only">切换导航</span>
@@ -22,11 +26,9 @@
         </div>
         <div class="collapse navbar-collapse" ng-class="{'in':In}">
             <ul class="nav navbar-nav">
-                <li ng-class="{'active':list[0]}"><a href="" ng-click="jump('/home',0)">首页</a></li>
-                <li ng-class="{'active':list[1]}"><a href="" ng-click="jump('/skill',1)">技能</a></li>
-                <li ng-class="{'active':list[2]}"><a href="" ng-click="jump('/experience',2)">经历</a></li>
-                <li ng-class="{'active':list[3]}"><a href="" ng-click="jump('/works',3)">项目</a></li>
-                <li ng-class="{'active':list[4]}"><a href="" ng-click="jump('/about',4)">关于我</a></li>
+                <li ng-class="{'active':x[0]}" ng-repeat="x in list">
+                    <a href="" ng-click="jump(x[1],$index)">{{x[2]}}</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -38,8 +40,9 @@
 <script>
     var app = angular.module('app', ['ngRoute', 'ngAnimate']);
     app.controller('ctr1', ['$scope', '$location', function ($scope, $location) {
-        $scope.list = [true, false, false, false];//导航ngclass相关数据
+        $scope.list = [[true, '/home', '首页'], [false, '/skill', '技能'], [false, '/experience', '经历'], [false, '/works', '项目'], [false, 'about', '关于我']];//导航ngclass相关数据
         $scope.In = false;
+        $scope.title = '首页';
         $scope.skill = {
             in: ['html', 'js', 'css3', 'php'],
             out: ['angular', 'less', 'webpack', 'bootstrap', 'mui', 'jq', 'react', 'vue']
@@ -47,17 +50,22 @@
         //页面跳转方法
         $scope.jump = function (url, index) {
             $location.path(url);
-            if (index >= 0) {
+            if (angular.isNumber(index)) {
+                $scope.title = $scope.list[index][2];
                 $scope.show(index);
                 $scope.In = false;
             }
         }
+        $scope.back=function(){
+            history.back();
+        }
         //改变导航标签class
         $scope.show = function (index) {
+
             for (var i = 0; i < $scope.list.length; i++) {
-                $scope.list[i] = false;
+                $scope.list[i][0] = false;
             }
-            $scope.list[index] = true;
+            $scope.list[index][0] = true;
         }
         $scope.jump('/home');
     }])

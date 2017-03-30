@@ -32,7 +32,15 @@
 .container {
     margin-top: 200px;
 }
-
+.s2{
+   display:none;
+}
+.title{
+    display:none;
+    position:absolute;
+    width:100%;
+    text-align:center;
+}
 .margin-top {
     margin-top: 30px;
 }
@@ -173,7 +181,16 @@
     .margin-top1 {
         margin-top: 30px;
     }
-
+    .s1{
+        display:none
+    }
+    .s2{
+        display:inline;
+        z-index:5;
+    }
+    .title{
+        display:block;
+    }
 }
 
 @-webkit-keyframes innerX {
